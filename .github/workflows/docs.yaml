@@ -23,8 +23,5 @@ jobs:
         with: 
           node-verion: ${{ env.NODE_VERSION }}
       
-      - name: Instalar dependencias
-        run: npm ci
-
-      - name: Ejecutar comando
-        run: npm run docs
+      - name: Llamar al script que la genera 
+        run: bash .github/scripts/build.sh
