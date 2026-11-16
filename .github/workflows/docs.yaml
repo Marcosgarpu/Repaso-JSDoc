@@ -1,0 +1,30 @@
+name: Generar documentacion
+
+on: 
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: 26
+
+jobs:
+  Generar-Documentacion:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+      
+      - name: Preparar node
+        uses: actions/setup-node@v4
+        with: 
+          node-verion: ${{ env.NODE_VERSION }}
+      
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar comando
+        run: npm run docs
