@@ -11,7 +11,33 @@ env:
   NODE_VERSION: 26
 
 jobs:
+  crear:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear saludo
+        run: echo "Hola, este archivo lo he creado desde actions" > saludo.txt
+      
+      - name: Guardar como artefacto
+        uses: actions/upload-artifact@v7
+        with:
+          name: mi-saludo
+          path: saludo.txt
+  
+  leer:
+    needs: crear
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recuperar
+        uses: actions/download-artifact@v8
+        with:
+          name: mi-saludo
+
+      - name: Mostramos el contenido
+        run: cat saludo.txt
+
+
   Generar-Documentacion:
+    needs: leer
     runs-on: ubuntu-latest
     
     steps:
