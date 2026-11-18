@@ -57,3 +57,12 @@ jobs:
           name: documentacion
           path: docs/  
           if-no-files-found: error
+      
+      - name: Nombres de los secrets
+        env:
+          NOMBRE: ${{ secrets.APP_NAME }}
+          ENTORNO: ${{ secrets.APP_ENV }}
+        run: |
+          echo "Aplicación: $NOMBRE"
+          echo "Entorno: $ENTORNO"    
+    
