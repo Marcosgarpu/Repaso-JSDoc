@@ -11,35 +11,34 @@ env:
   NODE_VERSION: 26
 
 jobs:
-  crear:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Crear saludo
-        run: echo "Hola, este archivo lo he creado desde actions" > saludo.txt
+  # crear:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Crear saludo
+  #       run: echo "Hola, este archivo lo he creado desde actions" > saludo.txt
       
-      - name: Guardar como artefacto
-        uses: actions/upload-artifact@v7
-        with:
-          name: mi-saludo
-          path: saludo.txt
+  #     - name: Guardar como artefacto
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: mi-saludo
+  #         path: saludo.txt
   
-  leer:
-    needs: crear
-    runs-on: ubuntu-latest
-    steps:
-      - name: Recuperar
-        uses: actions/download-artifact@v8
-        with:
-          name: mi-saludo
+  # leer:
+  #   needs: crear
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Recuperar
+  #       uses: actions/download-artifact@v8
+  #       with:
+  #         name: mi-saludo
 
-      - name: Mostramos el contenido
-        run: cat saludo.txt
+  #     - name: Mostramos el contenido
+  #       run: cat saludo.txt
 
 
   Generar-Documentacion:
-    needs: leer
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Descargar el código
         uses: actions/checkout@v4
@@ -47,7 +46,14 @@ jobs:
       - name: Preparar node
         uses: actions/setup-node@v4
         with: 
-          node-verion: ${{ env.NODE_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
       
       - name: Llamar al script que la genera 
         run: bash .github/scripts/build.sh
+
+      - name: Generar-artefacto
+        uses: actions/upload-artifact@v7 
+        with: 
+          name: documentacion
+          path: docs/  
+          if-no-files-found: error
